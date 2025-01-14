@@ -3,6 +3,7 @@ package com.mplatform.framework.utils;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.*;
 
 public class ExcelOps 
@@ -14,20 +15,26 @@ public class ExcelOps
 		Object[][] excelData = null;
 		
     	try {
-    
-    			String filePath = System.getProperty("USER.DIR") + "C:\\Users\\mohit\\git\\com.mplatform.framework\\src\\test\\resources" + xLFileName;
+    			
+    			String filePath = System.getProperty("user.dir") + "\\src\\test\\resources\\" + xLFileName + ".xlsx";
 				FileInputStream fis = new FileInputStream(filePath);
 				@SuppressWarnings("resource")
 				XSSFWorkbook workbook = new XSSFWorkbook(fis);
-				XSSFSheet worksheet = workbook.getSheet(filePath);
+				XSSFSheet worksheet = workbook.getSheet("Test");
 				XSSFRow row;
+				excelData = new Object[worksheet.getPhysicalNumberOfRows()][worksheet.getRow(0).getPhysicalNumberOfCells()];
 				for(int i = 0;i < worksheet.getPhysicalNumberOfRows();i++)
 				{
 					row = worksheet.getRow(i);
 					for(int j = 0;j < row.getPhysicalNumberOfCells();j++)
 					{
 						XSSFCell cell = row.getCell(j);
-						excelData[i][j] = cell.getStringCellValue();
+						if(cell.getCellType()==CellType.STRING) {
+								excelData[i][j] = cell.getStringCellValue();
+							}
+						else if(cell.getCellType()==CellType.NUMERIC){
+							excelData[i][j] = cell.getNumericCellValue();
+						}
 					}
 				}
 				
