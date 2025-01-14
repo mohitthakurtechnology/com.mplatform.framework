@@ -4,6 +4,7 @@
   <test thread-count="5" name="UtilTests">
     <classes>
       <class name="com.mplatform.framework.utiltests.ExcelOpsTests"/>
+      <class name="com.mplatform.framework.utiltests.PropertiesFileOpsTests"/>
     </classes>
   </test> <!-- UtilTests -->
 </suite> <!-- UtilSuite -->

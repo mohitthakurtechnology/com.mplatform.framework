@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.mplatform.framework.utiltests.ExcelOpsTests">
+      <class name="com.mplatform.framework.utiltests.PropertiesFileOpsTests">
         <methods>
-          <include name="getDataTest"/>
+          <include name="getconfigpropertytest"/>
         </methods>
-      </class> <!-- com.mplatform.framework.utiltests.ExcelOpsTests -->
+      </class> <!-- com.mplatform.framework.utiltests.PropertiesFileOpsTests -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
