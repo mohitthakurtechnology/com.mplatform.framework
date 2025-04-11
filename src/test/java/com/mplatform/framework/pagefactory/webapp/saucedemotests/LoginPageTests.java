@@ -2,18 +2,17 @@ package com.mplatform.framework.pagefactory.webapp.saucedemotests;
 
 import org.testng.annotations.Test;
 
-//import com.mplatform.framework.utils.BaseTest;
+import com.mplatform.framework.utils.BaseTest;
 
 /**
  * Unit test for simple App.
  */
-public class LoginPageTests 
+public class LoginPageTests extends BaseTest
 {
 	
-
     @Test
     public void loginTest()
     {
-    	//testSetUp("chrome");
+    	
     }
 }
