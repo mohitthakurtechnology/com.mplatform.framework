@@ -24,5 +24,4 @@ public class PropertiesFileOps {
 		}
 		return prop;
 	}
-
 }

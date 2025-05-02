@@ -21,6 +21,7 @@ public class BaseTest
 				prop = propertiesfileops.loadProperties("configs");
 				if(prop.getProperty("testType").toUpperCase().compareTo("WEB")==0) {
 					System.out.println(prop.getProperty("testType"));
+					
 				}
 				else if(prop.getProperty("testType").toUpperCase().compareTo("API")==0) {
 					System.out.println(prop.getProperty("testType"));

@@ -50,13 +50,7 @@
                 <configuration>
                     <suiteXmlFiles>
                         <suiteXmlFile>
-                            src\test\resources\testngg.xml
-                        </suiteXmlFile>
-                         <suiteXmlFile>
-                            src\test\resources\propertiesfileopstests.xml
-                        </suiteXmlFile>
-                        <suiteXmlFile>
-                            src\test\resources\excelopsTests.xml
+                            src\test\resources\testng1.xml
                         </suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
