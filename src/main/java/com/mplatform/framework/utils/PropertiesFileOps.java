@@ -9,7 +9,7 @@ public class PropertiesFileOps {
 	
 	Properties prop;
 	
-	public Properties loadProperties(String fileName) throws IOException {
+	public Properties loadProperties(String fileName) {
 		
 		
 		String filePath = System.getProperty("user.dir") + File.separator + "src\\test\\resources\\" + fileName + ".properties";

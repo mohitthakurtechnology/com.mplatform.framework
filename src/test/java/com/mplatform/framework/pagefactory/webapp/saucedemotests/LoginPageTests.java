@@ -2,27 +2,22 @@ package com.mplatform.framework.pagefactory.webapp.saucedemotests;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import com.mplatform.framework.pagefactory.webapp.saucedemo.LoginPage;
+import com.mplatform.framework.utils.MyListeners;
 
 
-public class LoginPageTests
+public class LoginPageTests extends MyListeners
 {
+	LoginPage loginpage;
 	
     @Test
     public void loginTest()
     {
-    	 System.out.println("loginTest");
-    	 Assert.assertEquals(10,10);
+    	loginpage = new LoginPage(driver);
+    	
+    	loginpage.login(prop.getProperty("testid"), prop.getProperty("password"));
+    	loginpage.login("standard_user", "secret_sauce");
+    	Assert.assertEquals(10,10);
     }
-    @Test
-    public void loginTest1()
-    {
-    	 System.out.println("loginTest1");
-    	 Assert.assertEquals(1,1);
-    }
-    @Test
-    public void loginTest2()
-    {
-    	 System.out.println("loginTest2");
-    	 Assert.assertEquals(10,10);
-    }
+
 }

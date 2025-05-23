@@ -4,80 +4,32 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class MyListeners implements ITestListener  
+public class MyListeners implements ITestListener
 {
-	WebDriver driver;
-	PropertiesFileOps propertiesfileops;
-	Properties prop;
+	public static WebDriver driver;
+	public static PropertiesFileOps propertiesfileops;
+	public static Properties prop;
 	String binariesPath;
 	
-	public void init()
-	{
-		propertiesfileops = new PropertiesFileOps();
-		
-		try {
-			
-			this.prop = propertiesfileops.loadProperties("configs");
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
-	public WebDriver getWebDriver(String BrowserName)
-	{
-		if(prop.getProperty("BrowserType").toUpperCase().compareTo("CHROME")==0) {
-			
-			this.binariesPath = System.getProperty("user.dir") + prop.getProperty("ChromeBinaryPath");
-			System.setProperty("webdriver.chrome.driver", binariesPath);
-			this.driver = new ChromeDriver();
-			
-		}
-		else if(prop.getProperty("BrowserType").toUpperCase().compareTo("FIREFOX")==0) {
-			
-			System.out.println(prop.getProperty("BrowserType"));
-			
-		}
-		else if(prop.getProperty("BrowserType").toUpperCase().compareTo("EDGE")==0) {
-			
-			System.out.println(prop.getProperty("BrowserType"));
-			
-		}
-		else if(prop.getProperty("BrowserType").toUpperCase().compareTo("SAFARI")==0) {
-			
-			System.out.println(prop.getProperty("BrowserType"));
-			
-		}
-		return this.driver;
-	}
-
 	@Override
 	public void onTestStart(ITestResult result) {
 		
 		System.out.println("OnTestStart - Invoked at every test method");
 		
 		init();
+		setPlatform(prop.getProperty("PlatformType"));
 		
-		if(prop.getProperty("PlatformType").toUpperCase().compareTo("WEB")==0) {
-			
-			driver = getWebDriver(prop.getProperty("BrowserType"));
-			driver.get("https://www.browserstack.com/");
-			driver.manage().timeouts().implicitlyWait(20000, TimeUnit.SECONDS);
-			
-		}
-		else if(prop.getProperty("PlatformType").toUpperCase().compareTo("API")==0) {
-			System.out.println(prop.getProperty("PlatformType"));
-		}
-		else if(prop.getProperty("PlatformType").toUpperCase().compareTo("MOBILE")==0) {
-			System.out.println(prop.getProperty("PlatformType"));
-		}
+		
+		driver.get(prop.getProperty("weburl"));
+		
+		driver.manage().timeouts().implicitlyWait(20000, TimeUnit.SECONDS);
 		
 	}
 
@@ -111,12 +63,66 @@ public class MyListeners implements ITestListener
 	public void onStart(ITestContext context) {
 		
 		System.out.println("Onstart - Invoked on the test class initiation before any test method execution"+ context.getName());
-		
 	}
 
 	@Override
 	public void onFinish(ITestContext context) {
 		System.out.println("OnFinish - Invoked after all test methods is executed");
 		
+	}
+	
+	public void init()
+	{
+		propertiesfileops = new PropertiesFileOps();
+		prop = propertiesfileops.loadProperties("configs");
+	}
+	//Platform Utils
+
+	public Object setPlatform(String platformName)
+	{
+		
+		if(prop.getProperty("PlatformType").toUpperCase().compareTo("WEB")==0) {
+			driver = setBrowser(prop.getProperty("BrowserType"));
+			
+		}
+		else if(prop.getProperty("PlatformType").toUpperCase().compareTo("API")==0) {
+			System.out.println(prop.getProperty("PlatformType"));
+		}
+		else if(prop.getProperty("PlatformType").toUpperCase().compareTo("MOBILE")==0) {
+			System.out.println(prop.getProperty("PlatformType"));
+		}
+		
+		return driver ;
+	}
+	
+	//WebUtils
+	
+	public WebDriver setBrowser(String BrowserName)
+	{
+		binariesPath = System.getProperty("user.dir") + prop.getProperty("BinaryPath");
+		
+		if(prop.getProperty("BrowserType").toUpperCase().compareTo("CHROME")==0) {
+		
+			System.setProperty("webdriver.chrome.driver", binariesPath);
+			driver = new ChromeDriver();
+			
+		}
+		else if(prop.getProperty("BrowserType").toUpperCase().compareTo("FIREFOX")==0) {
+			
+			System.out.println(prop.getProperty("BrowserType"));
+			
+		}
+		else if(prop.getProperty("BrowserType").toUpperCase().compareTo("EDGE")==0) {
+			
+			System.out.println(prop.getProperty("BrowserType"));
+			
+		}
+		else if(prop.getProperty("BrowserType").toUpperCase().compareTo("SAFARI")==0) {
+			
+			System.out.println(prop.getProperty("BrowserType"));
+			
+		}
+		
+		return driver;
 	}
 }
