@@ -16,8 +16,12 @@ public class LoginPageTests extends MyListeners
     	loginpage = new LoginPage(driver);
     	
     	loginpage.login(prop.getProperty("testid"), prop.getProperty("password"));
-    	loginpage.login("standard_user", "secret_sauce");
+    	Assert.assertEquals(10,10);
+    	extenttest.info("Inside Login Page Test");
+    }
+    @Test
+    public void loginTest1()
+    {
     	Assert.assertEquals(10,10);
     }
-
 }

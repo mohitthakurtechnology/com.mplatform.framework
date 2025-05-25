@@ -38,7 +38,12 @@
 	    <artifactId>selenium-java</artifactId>
 	    <version>4.27.0</version>
 	</dependency>
-	
+	<!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
+	<dependency>
+	    <groupId>com.aventstack</groupId>
+	    <artifactId>extentreports</artifactId>
+	    <version>3.1.5</version>
+	</dependency>
   </dependencies>
   <build>
     <pluginManagement>
@@ -50,9 +55,13 @@
                 <configuration>
                     <suiteXmlFiles>
                         <suiteXmlFile>
-                            src\test\resources\testng1.xml
+                            src\test\resources\frameworkUnitTests\extentreportopstests.xml
+                        </suiteXmlFile>
+                        <suiteXmlFile>
+                            src\test\resources\appUnitTests\loginpagetests.xml
                         </suiteXmlFile>
                     </suiteXmlFiles>
+                    
                 </configuration>
             </plugin>
         </plugins>

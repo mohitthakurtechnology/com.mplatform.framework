@@ -1,8 +1,13 @@
 package com.mplatform.framework.utils;
 
+import org.testng.ISuite;
+import org.testng.ISuiteListener;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
 
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -10,26 +15,37 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class MyListeners implements ITestListener
+public class MyListeners implements ITestListener,ISuiteListener
 {
 	public static WebDriver driver;
+	
 	public static PropertiesFileOps propertiesfileops;
 	public static Properties prop;
-	String binariesPath;
 	
+	public static ExtentReports extentreporter;
+	public static ExtentTest extenttest;
+	
+	String binariesPath;
 	
 	@Override
 	public void onTestStart(ITestResult result) {
 		
 		System.out.println("OnTestStart - Invoked at every test method");
 		
-		init();
-		setPlatform(prop.getProperty("PlatformType"));
+		extenttest = extentreporter.createTest(result.getName());
+		System.out.println("test started ============================= >>>>>>>>>>>>" + result.getName());
+		extenttest.info("test started ============================= >>>>>>>>>>>>" + result.getName());
 		
 		
-		driver.get(prop.getProperty("weburl"));
+		Object platform = setPlatform(prop.getProperty("PlatformType"));
 		
-		driver.manage().timeouts().implicitlyWait(20000, TimeUnit.SECONDS);
+		if(platform instanceof WebDriver)
+		{	
+			
+			driver.get(prop.getProperty("weburl"));
+			driver.manage().timeouts().implicitlyWait(2000, TimeUnit.SECONDS);
+			
+		}
 		
 	}
 
@@ -37,6 +53,7 @@ public class MyListeners implements ITestListener
 	public void onTestSuccess(ITestResult result) {
 		
 		System.out.println("OnTestSuccess - Invoked at every test method success");
+		extenttest.pass(result.getName());
 		driver.quit();
 		
 	}
@@ -50,7 +67,6 @@ public class MyListeners implements ITestListener
 	@Override
 	public void onTestSkipped(ITestResult result) {
 		System.out.println("OnTestSkipped - Invoked at every test method skipped");
-		
 	}
 
 	@Override
@@ -62,20 +78,38 @@ public class MyListeners implements ITestListener
 	@Override
 	public void onStart(ITestContext context) {
 		
+		
 		System.out.println("Onstart - Invoked on the test class initiation before any test method execution"+ context.getName());
 	}
 
 	@Override
 	public void onFinish(ITestContext context) {
+		
 		System.out.println("OnFinish - Invoked after all test methods is executed");
 		
 	}
 	
-	public void init()
+	@Override
+	public void onStart(ISuite suite) {
+		init(suite.getXmlSuite().getName());
+		
+	}
+
+	@Override
+	public void onFinish(ISuite suite) {
+		extentreporter.flush();
+		
+	}
+	
+	public void init(String suiteName)
 	{
+		
 		propertiesfileops = new PropertiesFileOps();
 		prop = propertiesfileops.loadProperties("configs");
+		extentreporter = ExtentReportOps.createExtentReporter(suiteName);
+	
 	}
+	
 	//Platform Utils
 
 	public Object setPlatform(String platformName)
@@ -125,4 +159,5 @@ public class MyListeners implements ITestListener
 		
 		return driver;
 	}
+
 }

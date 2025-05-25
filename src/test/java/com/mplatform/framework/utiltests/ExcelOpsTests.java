@@ -1,4 +1,4 @@
-package com.mplatform.framework.utiltests;
+ package com.mplatform.framework.utiltests;
 
 import org.testng.annotations.Test;
 
