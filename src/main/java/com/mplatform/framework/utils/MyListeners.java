@@ -12,6 +12,9 @@ import com.aventstack.extentreports.ExtentTest;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -24,16 +27,20 @@ public class MyListeners implements ITestListener,ISuiteListener
 	
 	public static ExtentReports extentreporter;
 	public static ExtentTest extenttest;
+	public static Logger logger = null; 
 	
 	String binariesPath;
 	
 	@Override
 	public void onTestStart(ITestResult result) {
 		
-		System.out.println("OnTestStart - Invoked at every test method");
-		
+		logger = LogManager.getLogger(result.getTestClass().getName().concat(".class"));
+		logger.log(Level.INFO, "OnTestStart - Invoked at every test method");
+		logger.log(Level.INFO, "test class ============================= >>>" + result.getTestClass().getName()+".class");
+
 		extenttest = extentreporter.createTest(result.getName());
-		System.out.println("test started ============================= >>>>>>>>>>>>" + result.getName());
+		logger.log(Level.INFO, "test started ============================= >>>>>>>>>>>>" + result.getName());
+
 		extenttest.info("test started ============================= >>>>>>>>>>>>" + result.getName());
 		
 		
@@ -52,7 +59,7 @@ public class MyListeners implements ITestListener,ISuiteListener
 	@Override
 	public void onTestSuccess(ITestResult result) {
 		
-		System.out.println("OnTestSuccess - Invoked at every test method success");
+		logger.log(Level.INFO, "OnTestSuccess - Invoked at every test method success");
 		extenttest.pass(result.getName());
 		driver.quit();
 		
@@ -61,12 +68,14 @@ public class MyListeners implements ITestListener,ISuiteListener
 	@Override
 	public void onTestFailure(ITestResult result) {
 		System.out.println("OnTestFailure - Invoked at every test method fails");
+		logger.log(Level.INFO,"OnTestFailure - Invoked at every test method fails");
 		
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
 		System.out.println("OnTestSkipped - Invoked at every test method skipped");
+		logger.log(Level.INFO,"OnTestSkipped - Invoked at every test method skipped");
 	}
 
 	@Override
@@ -77,7 +86,6 @@ public class MyListeners implements ITestListener,ISuiteListener
 
 	@Override
 	public void onStart(ITestContext context) {
-		
 		
 		System.out.println("Onstart - Invoked on the test class initiation before any test method execution"+ context.getName());
 	}
@@ -92,7 +100,6 @@ public class MyListeners implements ITestListener,ISuiteListener
 	@Override
 	public void onStart(ISuite suite) {
 		init(suite.getXmlSuite().getName());
-		
 	}
 
 	@Override
