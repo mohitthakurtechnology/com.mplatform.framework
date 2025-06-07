@@ -23,8 +23,6 @@ public class LoginPageTests extends MyListeners
     	Assert.assertEquals(10,10);
     	extenttest.info("Inside Login Page Test");
     }
-    @Test
-    public void loginTest1()
     {
     	Assert.assertEquals(10,10);
     }

@@ -124,7 +124,6 @@ public class MyListeners implements ITestListener,ISuiteListener
 		
 		if(prop.getProperty("PlatformType").toUpperCase().compareTo("WEB")==0) {
 			driver = setBrowser(prop.getProperty("BrowserType"));
-			
 		}
 		else if(prop.getProperty("PlatformType").toUpperCase().compareTo("API")==0) {
 			System.out.println(prop.getProperty("PlatformType"));
