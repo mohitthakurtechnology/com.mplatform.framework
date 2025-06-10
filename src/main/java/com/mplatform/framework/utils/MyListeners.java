@@ -9,7 +9,6 @@ import org.testng.ITestResult;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
-import java.io.File;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -140,7 +139,7 @@ public class MyListeners implements ITestListener,ISuiteListener
 	
 	public WebDriver setBrowser(String BrowserName)
 	{
-		binariesPath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "binaries" + File.separator + "chromedriver"  + ".exe";
+		binariesPath = System.getProperty("user.dir") + prop.getProperty("BinaryPath");
 		
 		if(prop.getProperty("BrowserType").toUpperCase().compareTo("CHROME")==0) {
 		
